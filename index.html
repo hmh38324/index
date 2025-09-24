@@ -19,6 +19,9 @@
                 </h1>
                 <p class="subtitle">杭州卷烟厂卷包车间</p>
                 <div class="decoration-line"></div>
+                <button id="settingsButton" class="btn btn-special" style="position:absolute;top:20px;right:20px;min-width:auto;padding:10px 14px;">
+                    <i class="fas fa-cog"></i>
+                </button>
                 
                 <!-- 活动时间信息 -->
                 <div class="activity-schedule">
@@ -28,7 +31,7 @@
                         </div>
                         <div class="schedule-content">
                             <h3 class="schedule-title">线下活动</h3>
-                            <p class="schedule-time">2025年9月深度清洁结束后</p>
+                            <p class="schedule-time">2025年9月28日深度清洁结束后（14:00-16:30）</p>
                             <p class="schedule-location">前往成型区域空地</p>
                         </div>
                     </div>
@@ -217,6 +220,31 @@
                 </div>
             </div>
         </footer>
+    </div>
+
+    <!-- 设置弹窗 -->
+    <div id="settingsModal" class="modal" style="display:none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>全局开关</h3>
+                <button id="modalClose" class="icon-btn" aria-label="关闭"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <label class="switch-row">
+                    <span>试炼场上锁</span>
+                    <input type="checkbox" id="trialLockToggle"/>
+                </label>
+                <label class="switch-row">
+                    <span>竞技场上锁</span>
+                    <input type="checkbox" id="arenaLockToggle"/>
+                </label>
+                <div class="hint">密码已内置：1314520</div>
+            </div>
+            <div class="modal-footer">
+                <button id="saveFlags" class="btn btn-primary"><i class="fas fa-save"></i> 保存</button>
+                <button id="refreshFlags" class="btn btn-secondary"><i class="fas fa-rotate"></i> 刷新</button>
+            </div>
+        </div>
     </div>
 
     <script src="script.js"></script>
