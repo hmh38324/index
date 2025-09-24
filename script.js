@@ -11,9 +11,6 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // 添加滚动动画
     addScrollAnimations();
-
-    // 锁功能：初始化
-    initGlobalLocks();
 });
 
 // 页面加载动画
@@ -248,99 +245,3 @@ const optimizedScrollHandler = debounce(() => {
 }, 16);
 
 window.addEventListener('scroll', optimizedScrollHandler, { passive: true });
-
-// ===== 全局上锁功能 =====
-async function fetchFlags() {
-    try {
-        const res = await fetch('/api/flags');
-        const json = await res.json();
-        return json?.data || { trialLocked: false, arenaLocked: false };
-    } catch (e) {
-        return { trialLocked: false, arenaLocked: false };
-    }
-}
-
-function applyLockToUI(flags) {
-    const { trialLocked, arenaLocked } = flags;
-    // 试炼场按钮：所有卡片内的第一个按钮
-    document.querySelectorAll('.game-card .game-buttons .btn-primary').forEach(btn => {
-        btn.toggleAttribute('disabled', !!trialLocked);
-        btn.classList.toggle('is-disabled', !!trialLocked);
-        btn.setAttribute('title', trialLocked ? '试炼场已上锁' : '');
-    });
-    // 竞技场按钮：所有卡片内的第二个按钮
-    document.querySelectorAll('.game-card .game-buttons .btn-secondary').forEach(btn => {
-        btn.toggleAttribute('disabled', !!arenaLocked);
-        btn.classList.toggle('is-disabled', !!arenaLocked);
-        btn.setAttribute('title', arenaLocked ? '竞技场已上锁' : '');
-    });
-}
-
-async function updateFlags(partial) {
-    const cur = await fetchFlags();
-    const next = { ...cur, ...partial };
-    const res = await fetch('/api/flags', {
-        method: 'POST',
-        headers: { 'content-type': 'application/json' },
-        body: JSON.stringify({ ...next, password: '1314520' }),
-    }).then(r => r.json());
-    if (!res?.success) throw new Error('更新失败');
-    return res.data;
-}
-
-function initGlobalLocks() {
-    const settingsButton = document.getElementById('settingsButton');
-    const modal = document.getElementById('settingsModal');
-    const modalClose = document.getElementById('modalClose');
-    const trialToggle = document.getElementById('trialLockToggle');
-    const arenaToggle = document.getElementById('arenaLockToggle');
-    const saveBtn = document.getElementById('saveFlags');
-    const refreshBtn = document.getElementById('refreshFlags');
-
-    if (!settingsButton || !modal) return;
-
-    const openModal = () => { modal.style.display = 'flex'; };
-    const closeModal = () => { modal.style.display = 'none'; };
-
-    settingsButton.addEventListener('click', openModal);
-    modalClose?.addEventListener('click', closeModal);
-    modal.addEventListener('click', (e) => {
-        if (e.target === modal) closeModal();
-    });
-
-    // 初始化读取并套用
-    fetchFlags().then(flags => {
-        applyLockToUI(flags);
-        if (trialToggle) trialToggle.checked = !!flags.trialLocked;
-        if (arenaToggle) arenaToggle.checked = !!flags.arenaLocked;
-    });
-
-    // 保存
-    saveBtn?.addEventListener('click', async () => {
-        saveBtn.disabled = true;
-        try {
-            const data = await updateFlags({
-                trialLocked: !!trialToggle?.checked,
-                arenaLocked: !!arenaToggle?.checked,
-            });
-            applyLockToUI(data);
-        } catch (e) {
-            alert('保存失败：' + (e?.message || '未知错误'));
-        } finally {
-            saveBtn.disabled = false;
-        }
-    });
-
-    // 刷新远端状态
-    refreshBtn?.addEventListener('click', async () => {
-        refreshBtn.disabled = true;
-        try {
-            const flags = await fetchFlags();
-            if (trialToggle) trialToggle.checked = !!flags.trialLocked;
-            if (arenaToggle) arenaToggle.checked = !!flags.arenaLocked;
-            applyLockToUI(flags);
-        } finally {
-            refreshBtn.disabled = false;
-        }
-    });
-}

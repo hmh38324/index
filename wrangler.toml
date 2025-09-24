@@ -1,8 +1,0 @@
-name = "index-flags"
-compatibility_date = "2024-09-01"
-
-[[kv_namespaces]]
-binding = "FLAGS_KV"
-id = "84c5184976714d31a7c5d131f0350444"
-
-
