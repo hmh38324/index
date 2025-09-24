@@ -4,12 +4,12 @@
 
 ## 🎯 游戏列表
 
-### 1. 利群华容道
+### 1. 完美拼图
 - **试炼场**: [http://huarongdaotest.biboran.top](http://huarongdaotest.biboran.top)
 - **竞技场**: [https://liqunhuarongdao.biboran.top](https://liqunhuarongdao.biboran.top)
 - **规则**: 3×3九宫格拼图，将8个图片块按正确顺序排列
 
-### 2. 利群对对碰
+### 2. 牌号对对碰
 - **试炼场**: [https://duiduipengtest.biboran.top](https://duiduipengtest.biboran.top)
 - **竞技场**: [https://liqunduiduipeng.biboran.top](https://liqunduiduipeng.biboran.top)
 - **规则**: 记忆配对游戏，找到所有8对相同图片
@@ -61,12 +61,12 @@ index/
 - 每个游戏都有时间统计
 - 支持用户登录和排行榜功能
 
-### 华容道规则
+### 完美拼图规则
 - 点击图片块移动到相邻空白位置
 - 目标：将所有8个图片块按正确顺序排列
 - 统计时间与移动次数
 
-### 对对碰规则
+### 牌号对对碰规则
 - 每次只能翻开2张
 - 如果两张图片相同则配对成功，不同则翻回背面
 - 目标：找到所有8对相同图片
